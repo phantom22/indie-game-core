@@ -1,0 +1,50 @@
+:root {
+  --px-width: 40px;
+  --path-c: black;
+  --p-c: white !important;
+  --o-c: black !important;
+  --c-c: #ffa500;
+  --e-c: brown;
+}
+
+body {
+  background: black;  
+}
+
+#game-wrapper {
+  margin: 40px auto;
+  outline: 10px solid hsl(0,0%,2%);
+}
+
+#game-wrapper,
+#game-wrapper tr,
+#game-wrapper td {
+  border-collapse: collapse;
+  border: 1px solid transparent;
+}
+
+#game-wrapper td {
+  margin: 0;
+  padding: 0;
+  width: var(--px-width);
+  min-width: var(--px-width);
+  height: var(--px-width);
+  min-height: var(--px-width);
+  background: var(--path-c)
+}
+
+#game-wrapper .pos {
+  background: var(--p-c) !important
+}
+
+#game-wrapper .obs {
+  background: var(--o-c);
+}
+
+#game-wrapper .coi {
+  background: var(--c-c) !important;
+}
+
+#game-wrapper .exi {
+  background: var(--e-c) !important;
+}
