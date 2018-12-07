@@ -8,7 +8,7 @@
 
 - everytime that you will reload the page, the players/coins/exits positions will be randomized.
 
-### Coins quantity: *10*
+### Coins quantity: **10**
 
 #### Enjoy!
 
