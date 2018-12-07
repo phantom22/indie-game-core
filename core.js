@@ -1,6 +1,6 @@
 (function() {
 
-/***/
+/****/
 /*gE(s)=document.getElementById(s),qS(s,p)=p.querySelectorAll(s),ce(s)=document.createElement(s),aC(s,p)=p.appendChild(s)*/
 function gE(s){if(s){return document.getElementById(s)}}function qS(s,p){p=p?p:document.body;if(s){return p.querySelectorAll(s)}}function cE(s){if(s){return document.createElement(s)}}function aC(s,p){p=p?p:document.body;if(p&&s){p.appendChild(s)}}
 /****/
@@ -77,6 +77,5 @@ document.addEventListener('keydown',function(event){inputHandler(event.keyCode)}
 (function(){let c=qS(".coi");let e=qS(".exi");[...c, ...e].forEach(v=>v.setAttribute("style","background:black !important"))})()
 /****/
 sight(player);
-qS(".obs").forEach(v=>{v.classList.remove("obs")})
 
 })()
