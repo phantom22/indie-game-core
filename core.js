@@ -1,8 +1,61 @@
 (function() {
 
-/****/
+/***/
 /*gE(s)=document.getElementById(s),qS(s,p)=p.querySelectorAll(s),ce(s)=document.createElement(s),aC(s,p)=p.appendChild(s)*/
 function gE(s){if(s){return document.getElementById(s)}}function qS(s,p){p=p?p:document.body;if(s){return p.querySelectorAll(s)}}function cE(s){if(s){return document.createElement(s)}}function aC(s,p){p=p?p:document.body;if(p&&s){p.appendChild(s)}}
+/****/
+
+/****/
+/*Return indexes of recurring values in an array*/
+/*function arrI(arr,s){
+  if(Array.isArray(arr)&&s){
+    let rec=[];for(let i=0;i<arr.length;i++){if(String(arr[i])==String(s)){rec.push(i)}}return rec
+  }
+}*/
+/****/
+
+/****/
+/*Calculate best path*/
+/*function minCorrect(possible,final){
+	if(Array.isArray([...possible,...final])){
+  	final=final.map(v=>Number(v));
+  	// pl.x-possible.x, pl.y-possible.y
+  	let t1=[];
+    // pl.x-possible.x - pl.y-possible.y
+    let t2=[];
+    // pl.y - possible.y
+    let yd=[];
+    // pl.x - possible.x
+    let xd=[];
+		possible.forEach(v=>{
+    	t1.push([Number(final[0])-Number(v[0]),Number(final[1])-Number(v[1])])
+      yd.push(Number(final[1])-v[1]);xd.push(Number(final[0]-v[0]))
+      })
+    t1.forEach(v=>{t2.push(Number(v[0])-Number(v[1]))})
+    let min=Math.max(...t2);
+    if (t2.filter(v=>v==min).length > 1) {
+    	let occ=arrI(t2,min);
+      let fd=[];
+      let fs=[];
+      for(let i=0;i<occ.length;i++){
+      	fd.push([xd[occ[i]],yd[occ[i]]]);
+      }
+      fd.forEach(v=>{fs.push(v.reduce((a,b)=>a+b))})
+      let t=fs.reduce((a,b)=>a+b)
+      t=t/fs.length;
+      if(fs.filter(v=>v==t).length==fs.length){
+      	return possible[occ[0]]
+      }
+      else{
+      	let ord=arrI(fs,Math.min(...fs));
+        return possible[ord]
+      }
+    }
+    else {
+    	return possible[t2.indexOf(min)]
+    }
+  }
+}*/
 /****/
 
 /****/
@@ -30,11 +83,30 @@ function regSearch(x,y,n){let t=gE("game-wrapper");if(!isNaN(x)&&!isNaN(y)&&x<ce
 /****/
 
 /****/
+/*Enemy moves*/
+/*function enemyMove(e){
+	if(e){
+  	let x=Number(e[0].X);
+    let y=Number(e[0].Y);
+    let p=player[0];
+    let z1=[regSearch(x,y-1),regSearch(x,y+1),regSearch(x-1,y),regSearch(x+1,y)];
+		z1=z1.filter(v=>v.p!=="obs");
+    let z2=[]; //[[1,2],[2,3]]
+    z1.forEach(v=>{let x1=Number(v.e.dataset.x);let y1=Number(v.e.dataset.y);z2.push([Number(x1),Number(y1)])})
+	let c=minCorrect(z2,[p.X,p.Y]);
+  enemy[0].X=c[0];
+  enemy[0].Y=c[1];
+  objDisplay("ene",enemy);
+  }
+}*/
+/****/
+
+/****/
 /*All the events that occur when a player goes on a cell*/
 // check targeted cell
 class propertyCheck{constructor(a){this.canMove=true;this.isCoin=false;this.isExit=false;if(a){let s=regSearch(a.dataset.x,a.dataset.y);if(s.p=="obs"){this.canMove=false}else if(s.p=="coi"){this.isCoin=true}else if(s.p=="exi"){this.isExit=true}}}}
 // event handler
-function eventHandler(e){let pl=player[0];if(e instanceof HTMLElement){let p=new propertyCheck(e);let x=e.dataset.x;let y=e.dataset.y;let xd=Math.abs(x-pl.X);let yd=Math.abs(y-pl.Y);if(xd<=pl.R&&yd<=pl.R){if(p.canMove){pl.X=x;pl.Y=y;objDisplay("pos",player);sight(player);if(p.isCoin){e.classList.remove("coi");pl.O+=1}if(p.isExit&&pl.O==pl.T){e.classList.remove("exi");alert("you won")}}}}}
+function eventHandler(e){let pl=player[0];if(e instanceof HTMLElement){let p=new propertyCheck(e);let x=e.dataset.x;let y=e.dataset.y;let xd=Math.abs(x-pl.X);let yd=Math.abs(y-pl.Y);if(xd<=pl.R&&yd<=pl.R){if(p.canMove){pl.B-=1;pl.X=x;pl.Y=y;/*enemyMove(enemy);*/objDisplay("pos",player);if(p.isCoin){e.classList.remove("coi");pl.O+=1;pl.B=13;reg[`${x}-${y}`].p="path"}if(p.isExit&&pl.O==coins.length){e.classList.remove("exi");alert("you won");reg[`${x}-${y}`].p="path"}sight(player)}}}}
 /****/
 
 /****/
@@ -48,7 +120,7 @@ let prev_l = [];
 // light the block
 function light(b,l){if(Array.isArray(b)&&!isNaN(l)){b.forEach(v=>{if(v[0]>=0&&v[1]>=0){let e=!isNaN(v[0])&&!isNaN(v[1])?regSearch(v[0],v[1]):undefined;if(typeof e!=="undefined"&&e.p!=="obs"){e.e.style.setProperty("background",`hsl(0,0%,${l}%)`);prev_l.push(e.e)} else{return}}})}}
 // call light function
-function sight(p){for(let i=0;i<prev_l.length;i++){prev_l[i].setAttribute("style","background:hsl(0, 0%, 1.25%) !important")}prev_l=[];let x=Number(p[0].X);let y=Number(p[0].Y);light([[x,y]],100);let b1=[[x,y-1],[x+1,y],[x,y+1],[x-1,y]];light(b1,20);let b2=[[x,y-2],[x+1,y-1],[x+2,y],[x+1,y+1],[x,y+2],[x-1,y+1],[x-2,y],[x-1,y-1]];light(b2, 10);let b3=[[x,y-3],[x+1,y-2],[x+2,y-1],[x+3,y],[x+2,y+1],[x+1,y+2],[x,y+3],[x-1,y+2],[x-2,y+1],[x-3,y],[x-2,y-1],[x-1,y-2]];light(b3,5);let b4=[[x,y-4],[x+1,y-3],[x+2,y-2],[x+3,y-1],[x+4,y],[x+3,y+1],[x+2,y+2],[x+1,y+3],[x,y+4],[x-1,y+3],[x-2,y+2],[x-3,y+1],[x-4,y],[x-3,y-1],[x-2,y-2],[x-1,y-3]];light(b4,2.5)}
+function sight(p){let pl=player[0];for(let i=0;i<prev_l.length;i++){prev_l[i].setAttribute("style","background:hsl(0, 0%, 1.25%) !important")}prev_l=[];let x=Number(p[0].X);let y=Number(p[0].Y);light([[x,y]],100);let b1=[[x,y-1],[x+1,y],[x,y+1],[x-1,y]];if(pl.B>0){light(b1,20)}let b2=[[x,y-2],[x+1,y-1],[x+2,y],[x+1,y+1],[x,y+2],[x-1,y+1],[x-2,y],[x-1,y-1]];if(pl.B>3){light(b2, 10)}let b3=[[x,y-3],[x+1,y-2],[x+2,y-1],[x+3,y],[x+2,y+1],[x+1,y+2],[x,y+3],[x-1,y+2],[x-2,y+1],[x-3,y],[x-2,y-1],[x-1,y-2]];if(pl.B>6){light(b3,5)}let b4=[[x,y-4],[x+1,y-3],[x+2,y-2],[x+3,y-1],[x+4,y],[x+3,y+1],[x+2,y+2],[x+1,y+3],[x,y+4],[x-1,y+3],[x-2,y+2],[x-3,y+1],[x-4,y],[x-3,y-1],[x-2,y-2],[x-1,y-3]];if(pl.B>9){light(b4,2.5)}}
 /****/
 
 /****/
@@ -57,9 +129,11 @@ let obstacles = objectify("0-0,0-1,0-2,0-3,0-4,0-5,0-6,0-7,0-8,0-9,0-10,0-11,0-1
 objDisplay("obs", obstacles);
 let exit=objectify(randomPlace(1));
 let coins=objectify(randomPlace(10));
+/*let enemy=objectify(randomPlace(1));
+objDisplay("ene",enemy);*/
 objDisplay("coi", coins);
 let pl_r=randomPlace(1,true);
-let player=[{X:pl_r[0],Y:pl_r[1],R:1,O:0,T:coins.length}];
+let player=[{X:pl_r[0],Y:pl_r[1],R:1,O:0,B:12}];
 objDisplay("pos", player);
 objDisplay("exi", exit);
 /****/
@@ -77,5 +151,24 @@ document.addEventListener('keydown',function(event){inputHandler(event.keyCode)}
 (function(){let c=qS(".coi");let e=qS(".exi");[...c, ...e].forEach(v=>v.setAttribute("style","background:black !important"))})()
 /****/
 sight(player);
+
+/*
+
+LATEST THINGS THAT CHANGED:
+
+	● added new variable to player wich is brightness [B], the brightness level starts from 12 and with every players move it decreases by 1, collecting one coin sets the player brightness to 13 (with 1 additional move before the sight radius decreases)
+  ● four brightness levels, and the levels number indicates the players sight radius. ["1 level": B>0, "2 level": B>3, "3 level": B>6, "4 level": B>9]
+  ● toggle from register the exit after succesful win of the game
+  
+*/
+
+/*
+
+TO DO:
+	
+  ● if a cell was already randomized (for coin position), rarely two coins are on the same cell, but the players variable O wich stands for objectives is based on the coins object length wich can contain multiple same cell positions. Need a script that detects if a position was already randomized or not, before registering its values in the reg object.
+  ● a function that makes the enemy, an entity that is not in the game right now, move in the nearest to the player cell 
+
+*/
 
 })()
