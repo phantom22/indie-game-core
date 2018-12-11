@@ -5,6 +5,7 @@
   --o-c: black !important;
   --c-c: #ffa500;
   --e-c: brown;
+  --n-c: #5c0099 !important;
 }
 
 body {
@@ -12,7 +13,7 @@ body {
 }
 
 #game-wrapper {
-  margin: 40px auto;
+  margin: 1.5% auto 0 auto;
   outline: 10px solid hsl(0,0%,2%);
 }
 
@@ -47,4 +48,8 @@ body {
 
 #game-wrapper .exi {
   background: var(--e-c) !important;
+}
+
+#game-wrapper .ene {
+  background: var(--n-c) !important;
 }
