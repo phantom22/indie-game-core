@@ -156,7 +156,7 @@ sight(player);
 
 LATEST THINGS THAT CHANGED:
 
-	● added new variable to player wich is brightness [B], the brightness level starts from 12 and with every players move it decreases by 1, collecting one coin sets the player brightness to 13 (with 1 additional move before the sight radius decreases)
+  ● added new variable to player which is brightness [B], the brightness level starts from 12 and with every players move it decreases by 1, collecting one coin sets the player brightness to 13 (with 1 additional move before the sight radius decreases)
   ● four brightness levels, and the levels number indicates the players sight radius. ["1 level": B>0, "2 level": B>3, "3 level": B>6, "4 level": B>9]
   ● toggle from register the exit after succesful win of the game
   
