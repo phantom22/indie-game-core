@@ -10,6 +10,8 @@
 
 ### Coins quantity: **10**
 
+*Check this jsfiddle https://jsfiddle.net/M4XYm/qvoh69f1/, it's the same as on github but in action :D*
+
 #### Enjoy!
 
 ---

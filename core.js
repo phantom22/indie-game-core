@@ -2,7 +2,7 @@
 
 /****/
 /*game mode*/
-const gm=1;
+const gm=0;
 /****/
 
 /****/
@@ -60,7 +60,7 @@ function arrI(arr,s){s=String(s);if(Array.isArray(arr)&&s){let rec=[];for(let i=
 /****/
 
 /****/
-/*Transforms a string like "1-1,2-2" into [{X:1,Y:1},{X:2,Y:2}]*/
+/*Transforms a string like "1-1,2-2" into [0:{X:1,Y:1},1:{X:2,Y:2}]*/
 function objectify(s){if(s){let st=s.split(",");let a=[];st.forEach(v=>{v=v.split("-");a.push({X:v[0],Y:v[1]})});return a}}
 /****/
 
@@ -80,7 +80,7 @@ let reg={};
 // register custom cell
 function register({X,Y},p,e){if(X&&Y&&p!=="pos"&&e instanceof HTMLElement){reg[X+"-"+Y]={X:X,Y:Y,p:p,e:e}}}
 // search cell in register and after that based on its X and Y if not found in register
-function regSearch(x,y,n){let t=gE("game-wrapper");if(!isNaN(x)&&!isNaN(y)&&x<cells&&y<cells&&!n) {let re=reg[`${x}-${y}`];let c;if(!re){let r=qS("tr",t)[y];c=qS("td",r)[x];}return re?{p:re.p,e:re.e}:{p:"path",e:c}}else{if(!isNaN(n)){let r=qS("tr",t)[n];return qS("td",r)}}}
+function regSearch(x,y,n){let t=gE("game-wrapper");if(!isNaN(x)&&!isNaN(y)&&x<cells&&y<rows&&!n) {let re=reg[`${x}-${y}`];let c;if(!re){let r=qS("tr",t)[y];c=qS("td",r)[x];}return re?{p:re.p,e:re.e}:{p:"path",e:c}}else{if(!isNaN(n)){let r=qS("tr",t)[n];return qS("td",r)}}}
 /****/
 
 /****/
