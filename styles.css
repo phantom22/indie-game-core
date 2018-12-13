@@ -4,7 +4,7 @@
   --p-c: white !important;
   --o-c: black !important;
   --c-c: #ffa500;
-  --e-c: brown;
+  --e-c: saddlebrown !important;
   --n-c: #5c0099 !important;
 }
 
@@ -50,6 +50,6 @@ body {
   background: var(--e-c) !important;
 }
 
-#game-wrapper .ene {
+#game-wrapper .ent {
   background: var(--n-c) !important;
 }
